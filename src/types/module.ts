@@ -69,6 +69,7 @@ export interface ModuleOptions extends ImageProviders {
   sharp: any
   alias: Record<string, string>
   screens: CreateImageOptions['screens'],
+  densities: CreateImageOptions['densities'],
   internalUrl: string
   providers: { [name: string]: InputProvider | any } & ImageProviders
   [key: string]: any

@@ -6,16 +6,13 @@
 import type { DefineComponentWithMixin } from '../../types/vue'
 import type { ImageSizes } from '../../types'
 import { imageMixin } from './image.mixin'
-
 import { parseSize } from '~image'
 
 const defineComponent: DefineComponentWithMixin = (opts: any) => opts
-
-type NAttrs = typeof imageMixin['nImgAttrs'] & {
+  type NAttrs = typeof imageMixin['nImgAttrs'] & {
     sizes?: string
     srcset?: string
-}
-
+  }
 export default defineComponent({
   name: 'NuxtImg',
   mixins: [imageMixin],
@@ -39,8 +36,11 @@ export default defineComponent({
   computed: {
     nAttrs (): NAttrs {
       const attrs: NAttrs = this.nImgAttrs
-      if (this.sizes) {
-        const { sizes, srcset } = this.nSizes
+      if (this.sizes || this.densities) {
+        const {
+          sizes,
+          srcset
+        } = this.nSizes
         attrs.sizes = sizes
         attrs.srcset = srcset
       }
@@ -54,6 +54,7 @@ export default defineComponent({
       return this.$img.getSizes(this.src, {
         ...this.nOptions,
         sizes: this.sizes,
+        densities: this.densities || this.$img.options.densities,
         modifiers: {
           ...this.nModifiers,
           width: parseSize(this.width),
@@ -91,7 +92,7 @@ export default defineComponent({
       }
     }
     if (process.server && process.static) {
-      if (this.sizes) {
+      if (this.sizes || this.densities) {
         // Force compute sources into ssrContext
         // eslint-disable-next-line no-unused-expressions
         this.nSizes

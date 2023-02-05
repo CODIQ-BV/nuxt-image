@@ -54,8 +54,7 @@ const imageModule: Module<ModuleOptions> = async function imageModule (moduleOpt
     'screens',
     'presets',
     'provider',
-    'domains',
-    'alias'
+    'densities'
   ])
 
   const providers = resolveProviders(nuxt, options)
